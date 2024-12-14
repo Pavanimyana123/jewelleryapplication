@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2024 at 06:23 AM
--- Server version: 10.11.10-MariaDB
--- PHP Version: 7.2.34
+-- Generation Time: Dec 14, 2024 at 07:46 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `u330334144_react_db`
+-- Database: `react_db`
 --
 
 -- --------------------------------------------------------
