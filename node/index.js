@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const userRoutes = require('./routes/userRoutes');
+
 const purityRoutes = require('./routes/purityRoutes');
 const productRoutes = require('./routes/productRoutes');
 const metalTypeRoutes = require('./routes/metalTypeRoutes');
@@ -30,7 +30,7 @@ const PORT = 5000;
 app.use(bodyParser.json());
 
 
-app.use('/', userRoutes);
+
 app.use('/', purityRoutes);
 app.use('/', productRoutes);
 app.use('/', metalTypeRoutes);
