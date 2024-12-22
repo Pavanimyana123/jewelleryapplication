@@ -2,8 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
+<<<<<<< HEAD
 // Import route files
 const userRoutes = require('./routes/userRoutes');
+=======
+>>>>>>> 06aea83e980eeba55f7e959a5651a006d49e6be1
 const purityRoutes = require('./routes/purityRoutes');
 const productRoutes = require('./routes/productRoutes');
 const metalTypeRoutes = require('./routes/metalTypeRoutes');
@@ -32,8 +35,13 @@ const PORT = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
+<<<<<<< HEAD
 // Define routes
 app.use('/', userRoutes);
+=======
+
+
+>>>>>>> 06aea83e980eeba55f7e959a5651a006d49e6be1
 app.use('/', purityRoutes);
 app.use('/', productRoutes);
 app.use('/', metalTypeRoutes);
