@@ -23,10 +23,10 @@ const createOpeningTag = (req, res) => {
         TotalWeight_AW = 0,
         Making_Charges = 0,
         Status = "Active",
-        Source = "Unknown",
+        Source = "",
         Stock_Point = "Default Stock Point",
         Design_Master = "Default Design",
-        product_Name = "Unnamed Product"
+        product_Name = ""
     } = req.body;
 
     const data = {
@@ -79,7 +79,41 @@ const getOpeningTags = (req, res) => {
     });
 };
 
+const updateOpeningTag = (req, res) => {
+    const { id } = req.params; // Assuming `id` is the unique identifier for the record
+    const updatedData = req.body; // Updated data from the request body
+
+    openingTagsModel.updateOpeningTag(id, updatedData, (err, result) => {
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).json({ error: "Database update failed", details: err });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Record not found" });
+        }
+        res.status(200).json({ message: "Data updated successfully" });
+    });
+};
+
+// Handle deleting an existing opening tag entry
+const deleteOpeningTag = (req, res) => {
+    const { id } = req.params; // Assuming `id` is the unique identifier for the record
+
+    openingTagsModel.deleteOpeningTag(id, (err, result) => {
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).json({ error: "Database deletion failed", details: err });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Record not found" });
+        }
+        res.status(200).json({ message: "Data deleted successfully" });
+    });
+};
+
 module.exports = {
     createOpeningTag,
-    getOpeningTags
+    getOpeningTags,
+    updateOpeningTag,
+    deleteOpeningTag
 };

@@ -1,8 +1,12 @@
 const estimateModel = require("../models/estimateModel");
 
-// Controller to add a new estimate
 const addEstimate = (req, res) => {
   const data = req.body;
+
+  // Simple validation
+  if (!data.date || !data.estimate_number || !data.product_name) {
+    return res.status(400).json({ message: 'Missing required fields' });
+  }
 
   estimateModel.insertEstimate(data, (err, result) => {
     if (err) {
@@ -12,6 +16,7 @@ const addEstimate = (req, res) => {
     res.status(200).json({ message: 'Data inserted successfully', id: result.insertId });
   });
 };
+
 
 const getEstimates = (req, res) => {
     estimateModel.getEstimates((err, result) => {
@@ -54,10 +59,36 @@ const getEstimates = (req, res) => {
       res.status(200).json({ message: "Estimate deleted successfully" });
     });
   };
+
+
+  const getLastEstimateNumber = (req, res) => {
+    estimateModel.getLastEstimateNumber((err, result) => {
+      if (err) {
+        console.error("Error fetching last estimate number:", err);
+        return res.status(500).json({ error: "Failed to fetch last estimate number" });
+      }
+  
+      if (result.length > 0) {
+        // Process estimate numbers to find the next one
+        const estNumbers = result
+          .map(row => row.estimate_number)
+          .filter(estimate => estimate.startsWith("EST"))
+          .map(estimate => parseInt(estimate.slice(3), 10)); // Extract numeric part
+  
+        const lastEstimateNumber = Math.max(...estNumbers);
+        const nextEstimateNumber = `EST${String(lastEstimateNumber + 1).padStart(3, "0")}`;
+  
+        res.json({ lastEstimateNumber: nextEstimateNumber });
+      } else {
+        res.json({ lastEstimateNumber: "EST001" }); // Start with EST001
+      }
+    });
+  };
   
   module.exports = {
     addEstimate,
     getEstimates,
     updateEstimate,
-    deleteEstimate
+    deleteEstimate,
+    getLastEstimateNumber
   };

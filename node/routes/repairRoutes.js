@@ -10,7 +10,9 @@ router.put('/put/repairs/:id', repairController.updateRepair);
 router.delete('/delete/repairs/:id', repairController.deleteRepair);
 router.post('/update/repair-status/:id', repairController.updateRepairStatus);
 router.post('/add/repair-details', repairController.addRepairDetails);
-
+router.get('/repair-details', repairController.fetchAllRepairDetails);
+router.get('/repair-details/:repair_id', repairController.fetchRepairDetailsByRepairId);
+router.get("/lastRPNNumber", repairController.getLastRPNNumber);
 
 
 module.exports = router;

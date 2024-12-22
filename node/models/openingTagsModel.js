@@ -30,7 +30,20 @@ const getAllOpeningTags = (callback) => {
     db.query(sql, callback);
 };
 
+const updateOpeningTag = (id, updatedData, callback) => {
+  const sql = `UPDATE opening_tags_entry SET ? WHERE opentag_id = ?`;
+  db.query(sql, [updatedData, id], callback);
+};
+
+// Delete an existing opening tag entry
+const deleteOpeningTag = (id, callback) => {
+  const sql = `DELETE FROM opening_tags_entry WHERE opentag_id = ?`;
+  db.query(sql, [id], callback);
+};
+
 module.exports = {
     addOpeningTag,
-    getAllOpeningTags
+    getAllOpeningTags,
+    updateOpeningTag,
+    deleteOpeningTag
 };

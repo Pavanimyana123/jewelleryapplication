@@ -4,7 +4,7 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'react_db',
+  database: 'react_db'
 });
 
 db.connect((err) => {
