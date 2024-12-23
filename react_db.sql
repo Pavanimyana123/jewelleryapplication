@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 22, 2024 at 08:15 AM
+-- Generation Time: Dec 22, 2024 at 10:08 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -145,18 +145,19 @@ CREATE TABLE `account_details` (
   `branch` varchar(255) DEFAULT NULL,
   `gst_in` varchar(15) DEFAULT NULL,
   `aadhar_card` varchar(12) DEFAULT NULL,
-  `pan_card` varchar(10) DEFAULT NULL
+  `pan_card` varchar(10) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `account_details`
 --
 
-INSERT INTO `account_details` (`account_id`, `account_name`, `print_name`, `account_group`, `op_bal`, `metal_balance`, `dr_cr`, `address1`, `address2`, `city`, `pincode`, `state`, `state_code`, `phone`, `mobile`, `contact_person`, `email`, `birthday`, `anniversary`, `bank_account_no`, `bank_name`, `ifsc_code`, `branch`, `gst_in`, `aadhar_card`, `pan_card`) VALUES
-(2, 'John Doe', 'John D.', 'CUSTOMERS', 1500.50, 10.25, 'Dr', '123 Main Street', 'Suite 101', 'New York', '10001', 'New York', 'NY01', '1234567890', '9876543210', 'Jane Doe', 'john.doe@example.com', '2024-12-16', '2024-12-16', '123456789012', 'XYZ Bank', 'XYZB1234567', 'Main Branch', '22AAAAA0000A1Z5', '123456789012', 'ABCDE1234F'),
-(7, 'Pavani', 'Pavani', 'CUSTOMERS', 10000.00, 2000.00, 'Dr', 'h-no 5-47/2/d Chandrampet sircilla', 'Chandrampet', 'Rajanna Sircilla', '505301', 'Telangana', '21', '9676704365', '9676704365', NULL, 'pavanimyana2000@gmail.com', '2024-12-14', '2024-12-14', '1234567890123456', 'XYZ Bank', 'BOFA0001234', 'Los Angeles', '123456789012345', '123456789012', 'ABCDE1234F'),
-(9, 'Bhargav', 'Bhargav', 'CUSTOMERS', NULL, NULL, NULL, '5-47', 'Sircilla', 'Sircilla', '505301', 'Telangana', '24', '09676704365', '9856321478', NULL, 'bhargav@gmail.com', '2024-12-18', '2024-12-18', '1234567890123456', 'XYZ Bank', 'BOFA0001234', 'Main Branch', '123456789012345', '123412341234', 'ABCDE1234F'),
-(12, 'Raju', 'Raju', 'SUPPLIERS', NULL, NULL, NULL, 'h-no 5-47/2/d Chandrampet sircilla', 'Chandrampet', 'Rajanna Sircilla', '505301', 'Telangana', '24', '852147963', '9856231471', NULL, 'raju@gmail.com', '2004-12-31', '2024-01-31', '1234567890123456', 'SBI', 'XYZB0001234', 'Main Branch', '123456789012345', '123412341234', 'ABCDE1234F');
+INSERT INTO `account_details` (`account_id`, `account_name`, `print_name`, `account_group`, `op_bal`, `metal_balance`, `dr_cr`, `address1`, `address2`, `city`, `pincode`, `state`, `state_code`, `phone`, `mobile`, `contact_person`, `email`, `birthday`, `anniversary`, `bank_account_no`, `bank_name`, `ifsc_code`, `branch`, `gst_in`, `aadhar_card`, `pan_card`, `created_at`) VALUES
+(2, 'John Doe', 'John D.', 'CUSTOMERS', 1500.50, 10.25, 'Dr', '123 Main Street', 'Suite 101', 'New York', '10001', 'New York', 'NY01', '1234567890', '9876543210', 'Jane Doe', 'john.doe@example.com', '2024-12-16', '2024-12-16', '123456789012', 'XYZ Bank', 'XYZB1234567', 'Main Branch', '22AAAAA0000A1Z5', '123456789012', 'ABCDE1234F', '2024-12-22 09:04:30'),
+(7, 'Pavani', 'Pavani', 'CUSTOMERS', 10000.00, 2000.00, 'Dr', 'h-no 5-47/2/d Chandrampet sircilla', 'Chandrampet', 'Rajanna Sircilla', '505301', 'Telangana', '21', '9676704365', '9676704365', NULL, 'pavanimyana2000@gmail.com', '2024-12-14', '2024-12-14', '1234567890123456', 'XYZ Bank', 'BOFA0001234', 'Los Angeles', '123456789012345', '123456789012', 'ABCDE1234F', '2024-12-22 09:04:30'),
+(9, 'Bhargav', 'Bhargav', 'CUSTOMERS', NULL, NULL, NULL, '5-47', 'Sircilla', 'Sircilla', '505301', 'Telangana', '24', '09676704365', '9856321478', NULL, 'bhargav@gmail.com', '2024-12-18', '2024-12-18', '1234567890123456', 'XYZ Bank', 'BOFA0001234', 'Main Branch', '123456789012345', '123412341234', 'ABCDE1234F', '2024-12-22 09:04:30'),
+(12, 'Raju', 'Raju', 'SUPPLIERS', NULL, NULL, NULL, 'h-no 5-47/2/d Chandrampet sircilla', 'Chandrampet', 'Rajanna Sircilla', '505301', 'Telangana', '24', '852147963', '9856231471', NULL, 'raju@gmail.com', '2004-12-31', '2024-01-31', '1234567890123456', 'SBI', 'XYZB0001234', 'Main Branch', '123456789012345', '123412341234', 'ABCDE1234F', '2024-12-22 09:04:30');
 
 -- --------------------------------------------------------
 
@@ -310,15 +311,16 @@ CREATE TABLE `opening_tags_entry` (
   `Source` varchar(200) NOT NULL,
   `Stock_Point` varchar(255) DEFAULT NULL,
   `Design_Master` varchar(200) NOT NULL,
-  `product_Name` varchar(200) NOT NULL
+  `product_Name` varchar(200) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `opening_tags_entry`
 --
 
-INSERT INTO `opening_tags_entry` (`opentag_id`, `product_id`, `Pricing`, `Tag_ID`, `Prefix`, `Category`, `Purity`, `PCode_BarCode`, `Gross_Weight`, `Stones_Weight`, `Stones_Price`, `WastageWeight`, `HUID_No`, `Wastage_On`, `Wastage_Percentage`, `Weight_BW`, `MC_Per_Gram`, `Making_Charges_On`, `TotalWeight_AW`, `Making_Charges`, `Status`, `Source`, `Stock_Point`, `Design_Master`, `product_Name`) VALUES
-(24, 71, 'By Weight', 'TAG001', 'tag', 'Gold', '91.6HM', 'BR005', 20.00, 2.00, 2000.00, 0.80, 'HD001', 'Gross Weight', 4.00, 18.00, 100.00, 'By Weight', 18.80, 1880.00, 'sold', 'Transactions', 'Main Store', 'Priyanka', 'Necklace');
+INSERT INTO `opening_tags_entry` (`opentag_id`, `product_id`, `Pricing`, `Tag_ID`, `Prefix`, `Category`, `Purity`, `PCode_BarCode`, `Gross_Weight`, `Stones_Weight`, `Stones_Price`, `WastageWeight`, `HUID_No`, `Wastage_On`, `Wastage_Percentage`, `Weight_BW`, `MC_Per_Gram`, `Making_Charges_On`, `TotalWeight_AW`, `Making_Charges`, `Status`, `Source`, `Stock_Point`, `Design_Master`, `product_Name`, `created_at`) VALUES
+(24, 71, 'By Weight', 'TAG001', 'tag', 'Gold', '91.6HM', 'BR005', 20.00, 2.00, 2000.00, 0.80, 'HD001', 'Gross Weight', 4.00, 18.00, 100.00, 'By Weight', 18.80, 1880.00, 'sold', 'Transactions', 'Main Store', 'Priyanka', 'Necklace', '2024-12-22 09:05:04');
 
 -- --------------------------------------------------------
 
@@ -336,17 +338,18 @@ CREATE TABLE `payments` (
   `total_amt` decimal(10,2) NOT NULL,
   `discount_amt` decimal(10,2) DEFAULT NULL,
   `cash_amt` decimal(10,2) DEFAULT NULL,
-  `remarks` text DEFAULT NULL
+  `remarks` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `payments`
 --
 
-INSERT INTO `payments` (`payment_id`, `date`, `mode`, `cheque_number`, `receipt_no`, `account_name`, `total_amt`, `discount_amt`, `cash_amt`, `remarks`) VALUES
-(3, '2024-12-03', 'Cheque', 'CH12345678', 'REC987654', 'John Doe', 1500.00, 100.00, 1400.00, 'Payment for services'),
-(4, '2024-12-03', 'Cheque', 'CH12345678', 'REC987654', 'John Doe', 1500.00, 100.00, 1400.00, 'Payment for services'),
-(5, '2024-12-09', 'Cash', '123456', '23', 'Account1', 50000.00, 5000.00, 45000.00, NULL);
+INSERT INTO `payments` (`payment_id`, `date`, `mode`, `cheque_number`, `receipt_no`, `account_name`, `total_amt`, `discount_amt`, `cash_amt`, `remarks`, `created_at`) VALUES
+(3, '2024-12-03', 'Cheque', 'CH12345678', 'REC987654', 'John Doe', 1500.00, 100.00, 1400.00, 'Payment for services', '2024-12-22 09:05:25'),
+(4, '2024-12-03', 'Cheque', 'CH12345678', 'REC987654', 'John Doe', 1500.00, 100.00, 1400.00, 'Payment for services', '2024-12-22 09:05:25'),
+(5, '2024-12-09', 'Cash', '123456', '23', 'Account1', 50000.00, 5000.00, 45000.00, NULL, '2024-12-22 09:05:25');
 
 -- --------------------------------------------------------
 
@@ -373,15 +376,16 @@ CREATE TABLE `product` (
   `op_qty` decimal(10,2) DEFAULT NULL,
   `op_value` decimal(10,2) DEFAULT NULL,
   `op_weight` decimal(10,2) DEFAULT NULL,
-  `huid_no` varchar(100) DEFAULT NULL
+  `huid_no` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`product_id`, `product_name`, `rbarcode`, `Category`, `design_master`, `purity`, `item_prefix`, `short_name`, `sale_account_head`, `purchase_account_head`, `status`, `tax_slab`, `tax_slab_id`, `hsn_code`, `maintain_tags`, `op_qty`, `op_value`, `op_weight`, `huid_no`) VALUES
-(71, 'Necklace', 'RB001', 'Gold', 'Priyanka', '91.6HM', 'NK', 'NK', 'Sales', 'Purchase', '', '03% GST', 9, 'HSN001', 0, 1.00, 0.00, 10.00, 'HUID001');
+INSERT INTO `product` (`product_id`, `product_name`, `rbarcode`, `Category`, `design_master`, `purity`, `item_prefix`, `short_name`, `sale_account_head`, `purchase_account_head`, `status`, `tax_slab`, `tax_slab_id`, `hsn_code`, `maintain_tags`, `op_qty`, `op_value`, `op_weight`, `huid_no`, `created_at`) VALUES
+(71, 'Necklace', 'RB001', 'Gold', 'Priyanka', '91.6HM', 'NK', 'NK', 'Sales', 'Purchase', '', '03% GST', 9, 'HSN001', 0, 1.00, 0.00, 10.00, 'HUID001', '2024-12-22 09:05:55');
 
 -- --------------------------------------------------------
 
@@ -489,16 +493,17 @@ CREATE TABLE `receipts` (
   `total_amt` decimal(10,2) NOT NULL,
   `discount_amt` decimal(10,2) DEFAULT NULL,
   `cash_amt` decimal(10,2) DEFAULT NULL,
-  `remarks` text DEFAULT NULL
+  `remarks` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `receipts`
 --
 
-INSERT INTO `receipts` (`receipt_id`, `date`, `mode`, `cheque_number`, `receipt_no`, `account_name`, `total_amt`, `discount_amt`, `cash_amt`, `remarks`) VALUES
-(3, '2024-12-02', 'Cash', NULL, 'R123456', 'John Doe', 500.00, 50.00, 450.00, 'Payment for services'),
-(5, '2024-12-02', 'Cash', '619865484653', 'R1234567', 'John Doe', 500.00, 50.00, 450.00, 'Payment for services');
+INSERT INTO `receipts` (`receipt_id`, `date`, `mode`, `cheque_number`, `receipt_no`, `account_name`, `total_amt`, `discount_amt`, `cash_amt`, `remarks`, `created_at`) VALUES
+(3, '2024-12-02', 'Cash', NULL, 'R123456', 'John Doe', 500.00, 50.00, 450.00, 'Payment for services', '2024-12-22 09:06:30'),
+(5, '2024-12-02', 'Cash', '619865484653', 'R1234567', 'John Doe', 500.00, 50.00, 450.00, 'Payment for services', '2024-12-22 09:06:30');
 
 -- --------------------------------------------------------
 
@@ -517,16 +522,17 @@ CREATE TABLE `repairdetails` (
   `rate` float DEFAULT NULL,
   `overall_weight` float DEFAULT NULL,
   `overall_qty` int(20) DEFAULT NULL,
-  `overall_total` float DEFAULT NULL
+  `overall_total` float DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `repairdetails`
 --
 
-INSERT INTO `repairdetails` (`repairdetails_id`, `repair_id`, `metal_type`, `description`, `weight`, `qty`, `rate_type`, `rate`, `overall_weight`, `overall_qty`, `overall_total`) VALUES
-(28, 24, 'Gold', 'Gold', 5, 1, 'Per Qty', 7500, 10, 2, 9500),
-(29, 24, 'Silver', 'Silver Coins', 5, 1, 'Per Weight', 2000, 10, 2, 9500);
+INSERT INTO `repairdetails` (`repairdetails_id`, `repair_id`, `metal_type`, `description`, `weight`, `qty`, `rate_type`, `rate`, `overall_weight`, `overall_qty`, `overall_total`, `created_at`) VALUES
+(31, 24, 'Gold', 'Gold', 10, 1, 'Per Qty', 7500, 15, 2, 9500, '2024-12-22 09:06:49'),
+(32, 24, 'Silver', 'Silver Coins', 5, 1, 'Per Weight', 2000, 15, 2, 9500, '2024-12-22 09:06:49');
 
 -- --------------------------------------------------------
 
@@ -561,15 +567,16 @@ CREATE TABLE `repairs` (
   `total` decimal(10,2) DEFAULT NULL,
   `city` varchar(255) NOT NULL,
   `repair_no` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL
+  `status` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `repairs`
 --
 
-INSERT INTO `repairs` (`repair_id`, `name`, `mobile`, `email`, `address1`, `address2`, `address3`, `staff`, `delivery_date`, `place`, `metal`, `counter`, `entry_type`, `date`, `metal_type`, `item`, `tag_no`, `description`, `purity`, `extra_weight`, `stone_value`, `making_charge`, `handling_charge`, `total`, `city`, `repair_no`, `status`) VALUES
-(24, 'Pavani', '9676704365', 'pavanimyana2000@gmail.com', 'h-no 5-47/2/d Chandrampet sircilla', 'Chandrampet', '', 'ABC', '2024-12-28', 'Chandrampet', '', '1', 'Repair', '2024-12-21', 'Gold', 'Chain', '123456', 'Gold', 24.00, 0.00, 0.00, 0.00, 0.00, 0.00, 'Rajanna Sircilla', 'RPN001', 'Receive from Workshop');
+INSERT INTO `repairs` (`repair_id`, `name`, `mobile`, `email`, `address1`, `address2`, `address3`, `staff`, `delivery_date`, `place`, `metal`, `counter`, `entry_type`, `date`, `metal_type`, `item`, `tag_no`, `description`, `purity`, `extra_weight`, `stone_value`, `making_charge`, `handling_charge`, `total`, `city`, `repair_no`, `status`, `created_at`) VALUES
+(24, 'Pavani', '9676704365', 'pavanimyana2000@gmail.com', 'h-no 5-47/2/d Chandrampet sircilla', 'Chandrampet', '', 'ABC', '2024-12-28', 'Chandrampet', '', '1', 'Repair', '2024-12-21', 'Gold', 'Chain', '123456', 'Gold', 24.00, 0.00, 0.00, 0.00, 0.00, 9500.00, 'Rajanna Sircilla', 'RPN001', 'Receive from Workshop', '2024-12-22 09:02:56');
 
 -- --------------------------------------------------------
 
@@ -718,19 +725,20 @@ CREATE TABLE `urd_purchase_details` (
   `eqt_wt` decimal(10,2) DEFAULT NULL,
   `remarks` text DEFAULT NULL,
   `rate` decimal(10,2) DEFAULT NULL,
-  `total_amount` decimal(10,2) DEFAULT NULL
+  `total_amount` decimal(10,2) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `urd_purchase_details`
 --
 
-INSERT INTO `urd_purchase_details` (`id`, `customer_id`, `account_name`, `mobile`, `email`, `address1`, `address2`, `city`, `state`, `state_code`, `aadhar_card`, `gst_in`, `pan_card`, `date`, `purchase_number`, `product_id`, `product_name`, `metal`, `purity`, `hsn_code`, `gross`, `dust`, `touch_percent`, `ml_percent`, `eqt_wt`, `remarks`, `rate`, `total_amount`) VALUES
-(1, '', 'John Doe', '9876543210', 'john.doe@example.com', '123 Main Street', 'Suite 101', 'New York', 'New York', 'NY01', '123456789012', '22AAAAA0000A1Z5', 'ABCDE1234F', '2024-12-17', 'N/A', 'Voluptatum expedita ', 'PRODUCT2', 'SILVER', '22K', 'Facere qui veritatis', 23.00, 45.00, 43.00, 28.00, 60.00, 'Possimus deserunt e', 42.00, 78.00),
-(3, '4', 'Denise Lloyd', '09676704365', 'sufyvos@mailinator.com', '820 Fabien Lane', 'Qui non soluta dolor', 'Est duis harum susci', 'Telangana', 'Esse qui r', 'Irure iusto ', 'Aspernatur aper', 'Sed id sol', '2024-12-17', 'N/A', '8998', 'PRODUCT2', 'PLATINUM', '18K', '1', 1.00, 1.00, 1.00, 1.00, 1.00, '1', 1.00, 1.00),
-(4, '2', 'John Doe', '9876543210', 'john.doe@example.com', '123 Main Street', 'Suite 101', 'New York', 'New York', 'NY01', '123456789012', '22AAAAA0000A1Z5', 'ABCDE1234F', '2024-12-17', 'N/A', '767', 'PRODUCT3', 'PLATINUM', '18K', '89', 12.00, 12.00, 1.00, 1.00, 1.00, '1', 1.00, 1.00),
-(9, '7', 'Pavani', '9676704365', 'pavanimyana2000@gmail.com', 'h-no 5-47/2/d Chandrampet sircilla', 'Chandrampet', 'Rajanna Sircilla', 'Telangana', 'India', '123456789012', '123456789012345', 'ABCDE1234F', '0000-00-00', NULL, '2', 'PRODUCT2', 'SILVER', '18K', 'HSN001', 20.00, 2.00, 2.00, 2.00, 2.00, '', 0.00, 0.00),
-(10, '2', 'John Doe', '9876543210', 'john.doe@example.com', '123 Main Street', 'Suite 101', 'New York', 'New York', 'NY01', '123456789012', '22AAAAA0000A1Z5', 'ABCDE1234F', '2024-12-21', 'URD001', '1', 'PRODUCT1', 'GOLD', '22KHM', '', 0.00, 0.00, 0.00, 0.00, 0.00, '', 0.00, 0.00);
+INSERT INTO `urd_purchase_details` (`id`, `customer_id`, `account_name`, `mobile`, `email`, `address1`, `address2`, `city`, `state`, `state_code`, `aadhar_card`, `gst_in`, `pan_card`, `date`, `purchase_number`, `product_id`, `product_name`, `metal`, `purity`, `hsn_code`, `gross`, `dust`, `touch_percent`, `ml_percent`, `eqt_wt`, `remarks`, `rate`, `total_amount`, `created_at`) VALUES
+(1, '', 'John Doe', '9876543210', 'john.doe@example.com', '123 Main Street', 'Suite 101', 'New York', 'New York', 'NY01', '123456789012', '22AAAAA0000A1Z5', 'ABCDE1234F', '2024-12-17', 'N/A', 'Voluptatum expedita ', 'PRODUCT2', 'SILVER', '22K', 'Facere qui veritatis', 23.00, 45.00, 43.00, 28.00, 60.00, 'Possimus deserunt e', 42.00, 78.00, '2024-12-22 09:07:25'),
+(3, '4', 'Denise Lloyd', '09676704365', 'sufyvos@mailinator.com', '820 Fabien Lane', 'Qui non soluta dolor', 'Est duis harum susci', 'Telangana', 'Esse qui r', 'Irure iusto ', 'Aspernatur aper', 'Sed id sol', '2024-12-17', 'N/A', '8998', 'PRODUCT2', 'PLATINUM', '18K', '1', 1.00, 1.00, 1.00, 1.00, 1.00, '1', 1.00, 1.00, '2024-12-22 09:07:25'),
+(4, '2', 'John Doe', '9876543210', 'john.doe@example.com', '123 Main Street', 'Suite 101', 'New York', 'New York', 'NY01', '123456789012', '22AAAAA0000A1Z5', 'ABCDE1234F', '2024-12-17', 'N/A', '767', 'PRODUCT3', 'PLATINUM', '18K', '89', 12.00, 12.00, 1.00, 1.00, 1.00, '1', 1.00, 1.00, '2024-12-22 09:07:25'),
+(9, '7', 'Pavani', '9676704365', 'pavanimyana2000@gmail.com', 'h-no 5-47/2/d Chandrampet sircilla', 'Chandrampet', 'Rajanna Sircilla', 'Telangana', 'India', '123456789012', '123456789012345', 'ABCDE1234F', '0000-00-00', NULL, '2', 'PRODUCT2', 'SILVER', '18K', 'HSN001', 20.00, 2.00, 2.00, 2.00, 2.00, '', 0.00, 0.00, '2024-12-22 09:07:25'),
+(10, '2', 'John Doe', '9876543210', 'john.doe@example.com', '123 Main Street', 'Suite 101', 'New York', 'New York', 'NY01', '123456789012', '22AAAAA0000A1Z5', 'ABCDE1234F', '2024-12-21', 'URD001', '1', 'PRODUCT1', 'GOLD', '22KHM', '', 0.00, 0.00, 0.00, 0.00, 0.00, '', 0.00, 0.00, '2024-12-22 09:07:25');
 
 --
 -- Indexes for dumped tables
@@ -945,7 +953,7 @@ ALTER TABLE `receipts`
 -- AUTO_INCREMENT for table `repairdetails`
 --
 ALTER TABLE `repairdetails`
-  MODIFY `repairdetails_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `repairdetails_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `repairs`

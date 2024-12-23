@@ -106,7 +106,7 @@ const RepairModel = {
             (repair_id, metal_type, description, weight, qty, rate_type, rate, overall_weight, overall_qty, overall_total) 
             VALUES ?
         `;
-    
+
         const values = details.map((detail) => [
             repair_id,
             detail.metal_type,
@@ -118,27 +118,16 @@ const RepairModel = {
             detail.overall_weight,
             detail.overall_qty,
             detail.overall_total,
+
         ]);
-    
-        const totalOverallTotal = details.reduce((sum, detail) => sum + detail.overall_total, 0);
-    
+
         return new Promise((resolve, reject) => {
             db.query(insertDetailsQuery, [values], (err, result) => {
-                if (err) return reject(err);
-    
-                // Update the total in the `repairs` table
-                db.query(
-                    "UPDATE repairs SET total = total + ? WHERE repair_id = ?",
-                    [totalOverallTotal, repair_id],
-                    (updateErr) => {
-                        if (updateErr) return reject(updateErr);
-                        resolve(result);
-                    }
-                );
+                if (err) reject(err);
+                resolve(result);
             });
         });
     },
-    
 
     fetchAllDetails: () => {
         const query = `

@@ -81,33 +81,46 @@ exports.updateRepairStatus = async (req, res) => {
     const { repair_id, details } = req.body;
 
     if (!repair_id || !Array.isArray(details) || details.length === 0) {
-        console.error('Invalid input data:', { repair_id, details });
         return res.status(400).json({ error: 'Invalid input data' });
     }
 
     try {
         await db.beginTransaction();
 
-        // console.log('Adding details for repair ID:', repair_id, 'Details:', details);
-
-        // Add details to the repairdetails table
+        // Add repair details
         await RepairModel.addDetails(repair_id, details);
 
-        // Update status to "Receive from Workshop"
-        const statusUpdated = await RepairModel.updateStatus(repair_id, 'Receive from Workshop');
-        if (!statusUpdated) {
-            throw new Error('Failed to update repair status');
+        // Calculate total price from details
+        const totalPrice = details.reduce((total, detail) => {
+            return total + (Number(detail.qty || 0) * Number(detail.rate || 0));
+        }, 0);
+
+        // Update the repair's total and status
+        const updateRepair = `
+            UPDATE repairs 
+            SET status = 'Receive from Workshop', total = ? 
+            WHERE repair_id = ?
+        `;
+        const result = await new Promise((resolve, reject) => {
+            db.query(updateRepair, [totalPrice, repair_id], (err, result) => {
+                if (err) return reject(err);
+                resolve(result);
+            });
+        });
+
+        if (result.affectedRows === 0) {
+            throw new Error('Failed to update repair total');
         }
 
         await db.commit();
+
         res.status(201).json({ message: 'Repair details added and status updated successfully' });
     } catch (error) {
         await db.rollback();
-        console.error('Error adding repair details:', error);
+        console.error('Error processing request:', error);
         res.status(500).json({ error: 'Failed to process request' });
     }
 };
-
 
 
 exports.fetchAllRepairDetails = async (req, res) => {

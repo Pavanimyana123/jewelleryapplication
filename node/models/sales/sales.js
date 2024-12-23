@@ -75,3 +75,33 @@ exports.insert = (repairDetails, callback) => {
 
   db.query(sql, [values], callback);
 };
+
+exports.getAllUniqueInvoices = (callback) => {
+  const sql = `
+    SELECT * 
+    FROM repair_details r1
+    WHERE r1.id = (
+      SELECT MAX(r2.id) 
+      FROM repair_details r2
+      WHERE r1.invoice_number = r2.invoice_number
+    )
+  `;
+  db.query(sql, callback);
+};
+
+exports.getByInvoiceNumber = (invoiceNumber, callback) => {
+  const sql = `
+    SELECT 
+      code, product_id, metal, product_name, metal_type, design_name, purity, 
+      gross_weight, stone_weight, weight_bw, stone_price, va_on, va_percent, 
+      wastage_weight, total_weight_av, mc_on, mc_per_gram, making_charges, rate, 
+      rate_amt, tax_percent, tax_amt, total_price,
+      customer_id, mobile, account_name, email, address1, address2, city, 
+      pincode, state, state_code, aadhar_card, gst_in, pan_card, date, 
+      invoice_number, cash_amount, card_amount, card_amt, chq, chq_amt, online, 
+      online_amt, transaction_status, qty, taxable_amount, tax_amount, net_amount
+    FROM repair_details
+    WHERE invoice_number = ?
+  `;
+  db.query(sql, [invoiceNumber], callback);
+};
