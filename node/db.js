@@ -16,26 +16,4 @@ db.connect((err) => {
 });
 
 
-// const db = mysql.createPool({
-//   host: 'auth-db613.hstgr.io',
-//   user: 'u330334144_react_db_user',
-//   password: 'React@3iq#',
-//   database: 'u330334144_react_db',
-//   port: 3306,
-//   connectionLimit: 10, // Adjust as needed
-//   multipleStatements: true
-// });
-
-// db.getConnection((err, connection) => {
-//   if (err) {
-//     console.error('Error getting connection from pool:', err);
-//     return;
-//   }
-//   console.log('Connected to MySQL database');
-//   connection.release(); // Release the connection back to the pool
-// });
-
-
-
-
 module.exports = db;

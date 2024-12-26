@@ -5,7 +5,7 @@ const insertUrdPurchaseDetail = (customerDetails, item, callback) => {
   const query = `
     INSERT INTO urd_purchase_details 
     (customer_id, account_name, mobile, email, address1, address2, city, state, state_code, aadhar_card, gst_in, 
-     pan_card, date, purchase_number, product_id, product_name, metal, purity, hsn_code, gross, dust, touch_percent, 
+     pan_card, date, urdpurchase_number, product_id, product_name, metal, purity, hsn_code, gross, dust, touch_percent, 
      ml_percent, eqt_wt, remarks, rate, total_amount)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
@@ -23,7 +23,7 @@ const insertUrdPurchaseDetail = (customerDetails, item, callback) => {
     customerDetails.gst_in,
     customerDetails.pan_card,
     customerDetails.date,
-    customerDetails.purchase_number,
+    customerDetails.urdpurchase_number,
     item.product_id,
     item.product_name,
     item.metal,
@@ -56,7 +56,7 @@ const getAllPurchases = (callback) => {
       urd.gst_in, 
       urd.pan_card, 
       urd.date, 
-      urd.purchase_number, 
+      urd.urdpurchase_number, 
       urd.product_id, 
       urd.product_name, 
       urd.metal, 
@@ -76,5 +76,10 @@ const getAllPurchases = (callback) => {
   db.query(query, callback);
 };
 
+const getLastURDPurchaseNumber = (callback) => {
+  const query = "SELECT urdpurchase_number FROM estimate WHERE urdpurchase_number LIKE 'EST%' ORDER BY id DESC";
+  db.query(query, callback);
+};
 
-module.exports = { insertUrdPurchaseDetail,getAllPurchases, };
+
+module.exports = { insertUrdPurchaseDetail,getAllPurchases,getLastURDPurchaseNumber };

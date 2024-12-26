@@ -41,23 +41,63 @@ const getProductById = (req, res) => {
 };
 
 // Update a product
-const updateProduct = (values, product_id, callback) => {
-  const sql = `UPDATE product 
-               SET 
-                  product_name = ?, rbarcode = ?, Category = ?, design_master = ?, purity = ?, 
-                  item_prefix = ?, short_name = ?, sale_account_head = ?, purchase_account_head = ?, 
-                  status = ?, tax_slab = ?, tax_slab_id = ?, hsn_code = ?, maintain_tags = ?, 
-                  op_qty = ?, op_value = ?, op_weight = ?, huid_no = ?
-               WHERE product_id = ?`;
+// const updateProduct = (values, product_id, callback) => {
+//   const sql = `UPDATE product 
+//                SET 
+//                   product_name = ?, rbarcode = ?, Category = ?, design_master = ?, purity = ?, 
+//                   item_prefix = ?, short_name = ?, sale_account_head = ?, purchase_account_head = ?, 
+//                   status = ?, tax_slab = ?, tax_slab_id = ?, hsn_code = ?, maintain_tags = ?, 
+//                   op_qty = ?, op_value = ?, op_weight = ?, huid_no = ?
+//                WHERE product_id = ?`;
 
-  db.query(sql, [...values, product_id], callback);
+//   db.query(sql, [...values, product_id], callback);
+// };
+const updateProduct = (req, res) => {
+  const { product_id } = req.params;
+  const {
+    product_name, rbarcode, Category, design_master, purity, item_prefix,
+    short_name, sale_account_head, purchase_account_head, status, tax_slab, tax_slab_id,
+    hsn_code, maintain_tags, op_qty, op_value, op_weight, huid_no
+  } = req.body;
+
+  const values = [
+    product_name, rbarcode, Category, design_master, purity, item_prefix,
+    short_name, sale_account_head, purchase_account_head, status, tax_slab, tax_slab_id,
+    hsn_code, maintain_tags, op_qty, op_value, op_weight, huid_no
+  ];
+
+  productModel.updateProduct(values, product_id, (err, result) => {
+    if (err) {
+      console.error('Error updating product:', err);
+      res.status(500).json({ message: 'Database error', error: err });
+    } else if (result.affectedRows === 0) {
+      res.status(404).json({ message: 'Product not found' });
+    } else {
+      res.status(200).json({ message: 'Product updated successfully' });
+    }
+  });
 };
 
 // Delete a product
-const deleteProduct = (product_id, callback) => {
-  const sql = `DELETE FROM product WHERE product_id = ?`;
-  db.query(sql, [product_id], callback);
+// const deleteProduct = (product_id, callback) => {
+//   const sql = `DELETE FROM product WHERE product_id = ?`;
+//   db.query(sql, [product_id], callback);
+// };
+const deleteProduct = (req, res) => {
+  const { product_id } = req.params;
+
+  productModel.deleteProduct(product_id, (err, result) => {
+    if (err) {
+      console.error('Error deleting product:', err);
+      res.status(500).json({ message: 'Database error', error: err });
+    } else if (result.affectedRows === 0) {
+      res.status(404).json({ message: 'Product not found' });
+    } else {
+      res.status(200).json({ message: 'Product deleted successfully' });
+    }
+  });
 };
+
 
 const checkAndInsertProduct = async (req, res) => {
   const { product_name, Category, design_master, purity } = req.body;
@@ -83,11 +123,60 @@ const checkAndInsertProduct = async (req, res) => {
   }
 };
 
+// const getLastRbarcode = (req, res) => {
+//   productModel.getLastRbarcode((err, result) => {
+//       if (err) {
+//           console.error("Error fetching last rbarcode:", err);
+//           return res.status(500).json({ error: "Failed to fetch last rbarcode" });
+//       }
+
+//       if (result.length > 0) {
+//           const lastRbarcode = result[0].rbarcode;
+//           const lastNumber = parseInt(lastRbarcode.slice(2), 10); // Extract numeric part
+//           const nextRbarcode = `RB${String(lastNumber + 1).padStart(3, "0")}`; // Increment and pad
+//           res.json({ nextRbarcode });
+//       } else {
+//           res.json({ nextRbarcode: "RB001" }); // Start with RB001 if none exists
+//       }
+//   });
+// };
+
+const getLastRbarcode = (req, res) => {
+  productModel.getLastRbarcode((err, result) => {
+    if (err) {
+      console.error("Error fetching last rbarcode:", err);
+      return res.status(500).json({ error: "Failed to fetch last rbarcode" });
+    }
+
+    // Ensure result has data
+    if (result && result.length > 0) {
+      // Extract rbarcode values that start with "RB"
+      const rbNumbers = result
+        .map(row => row.rbarcode) // Extract rbarcode from each row
+        .filter(product => product && product.startsWith("RB")) // Filter only valid RB numbers
+        .map(product => parseInt(product.slice(2), 10)) // Extract the numeric part of rbarcode
+        .filter(number => !isNaN(number)); // Ensure numeric parsing was successful
+
+      if (rbNumbers.length > 0) {
+        // Find the maximum rbarcode number and increment it
+        const lastrbNumbers = Math.max(...rbNumbers);
+        const nextrbNumbers = `RB${String(lastrbNumbers + 1).padStart(3, "0")}`;
+        return res.json({ lastrbNumbers: nextrbNumbers });
+      }
+    }
+
+    // Default if no valid RB numbers are found
+    res.json({ lastrbNumbers: "RB001" });
+  });
+};
+
+
 module.exports = {
     createProduct,
     getProducts,
     getProductById,
     updateProduct,
     checkAndInsertProduct,
-    deleteProduct
+    deleteProduct,
+    getLastRbarcode
 };

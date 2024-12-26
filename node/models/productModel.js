@@ -39,46 +39,62 @@ const getProductById = (id, callback) => {
 };
 
 // Update a product
-const updateProduct = (req, res) => {
-  const { product_id } = req.params;
-  const {
-    product_name, rbarcode, Category, design_master, purity, item_prefix,
-    short_name, sale_account_head, purchase_account_head, status, tax_slab, tax_slab_id,
-    hsn_code, maintain_tags, op_qty, op_value, op_weight, huid_no
-  } = req.body;
+// const updateProduct = (req, res) => {
+//   const { product_id } = req.params;
+//   const {
+//     product_name, rbarcode, Category, design_master, purity, item_prefix,
+//     short_name, sale_account_head, purchase_account_head, status, tax_slab, tax_slab_id,
+//     hsn_code, maintain_tags, op_qty, op_value, op_weight, huid_no
+//   } = req.body;
 
-  const values = [
-    product_name, rbarcode, Category, design_master, purity, item_prefix,
-    short_name, sale_account_head, purchase_account_head, status, tax_slab, tax_slab_id,
-    hsn_code, maintain_tags, op_qty, op_value, op_weight, huid_no
-  ];
+//   const values = [
+//     product_name, rbarcode, Category, design_master, purity, item_prefix,
+//     short_name, sale_account_head, purchase_account_head, status, tax_slab, tax_slab_id,
+//     hsn_code, maintain_tags, op_qty, op_value, op_weight, huid_no
+//   ];
 
-  productModel.updateProduct(values, product_id, (err, result) => {
-    if (err) {
-      console.error('Error updating product:', err);
-      res.status(500).json({ message: 'Database error', error: err });
-    } else if (result.affectedRows === 0) {
-      res.status(404).json({ message: 'Product not found' });
-    } else {
-      res.status(200).json({ message: 'Product updated successfully' });
-    }
-  });
+//   productModel.updateProduct(values, product_id, (err, result) => {
+//     if (err) {
+//       console.error('Error updating product:', err);
+//       res.status(500).json({ message: 'Database error', error: err });
+//     } else if (result.affectedRows === 0) {
+//       res.status(404).json({ message: 'Product not found' });
+//     } else {
+//       res.status(200).json({ message: 'Product updated successfully' });
+//     }
+//   });
+// };
+
+const updateProduct = (values, product_id, callback) => {
+  const sql = `UPDATE product 
+               SET 
+                  product_name = ?, rbarcode = ?, Category = ?, design_master = ?, purity = ?, 
+                  item_prefix = ?, short_name = ?, sale_account_head = ?, purchase_account_head = ?, 
+                  status = ?, tax_slab = ?, tax_slab_id = ?, hsn_code = ?, maintain_tags = ?, 
+                  op_qty = ?, op_value = ?, op_weight = ?, huid_no = ?
+               WHERE product_id = ?`;
+
+  db.query(sql, [...values, product_id], callback);
 };
 
 // Delete a product
-const deleteProduct = (req, res) => {
-  const { product_id } = req.params;
+// const deleteProduct = (req, res) => {
+//   const { product_id } = req.params;
 
-  productModel.deleteProduct(product_id, (err, result) => {
-    if (err) {
-      console.error('Error deleting product:', err);
-      res.status(500).json({ message: 'Database error', error: err });
-    } else if (result.affectedRows === 0) {
-      res.status(404).json({ message: 'Product not found' });
-    } else {
-      res.status(200).json({ message: 'Product deleted successfully' });
-    }
-  });
+//   productModel.deleteProduct(product_id, (err, result) => {
+//     if (err) {
+//       console.error('Error deleting product:', err);
+//       res.status(500).json({ message: 'Database error', error: err });
+//     } else if (result.affectedRows === 0) {
+//       res.status(404).json({ message: 'Product not found' });
+//     } else {
+//       res.status(200).json({ message: 'Product deleted successfully' });
+//     }
+//   });
+// };
+const deleteProduct = (product_id, callback) => {
+  const sql = `DELETE FROM product WHERE product_id = ?`;
+  db.query(sql, [product_id], callback);
 };
 
 // Check if a product exists
@@ -107,6 +123,15 @@ const insertProduct = (product_name, Category, design_master, purity) => {
   });
 };
 
+const getLastRbarcode = (callback) => {
+  const query = "SELECT rbarcode FROM product WHERE rbarcode LIKE 'RB%' ORDER BY product_id DESC";
+  db.query(query, callback);
+};
+
+
+
+
+
 module.exports = {
   addProduct,
   getAllProducts,
@@ -114,5 +139,6 @@ module.exports = {
   updateProduct,
   checkProductExists,
   insertProduct,
-  deleteProduct
+  deleteProduct,
+  getLastRbarcode
 };

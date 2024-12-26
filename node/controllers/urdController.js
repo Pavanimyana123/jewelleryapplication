@@ -41,4 +41,28 @@ const getUrdPurchases = (req, res) => {
   });
 };
 
-module.exports = { saveUrdPurchase,getUrdPurchases, };
+  const getLastURDPurchaseNumber = (req, res) => {
+    getAllPurchases((err, result) => {
+      if (err) {
+        console.error("Error fetching last purchase number:", err);
+        return res.status(500).json({ error: "Failed to fetch last purchase number" });
+      }
+  
+      if (result.length > 0) {
+        // Process purchase numbers to find the next one
+        const URDNumbers = result
+          .map(row => row.urdpurchase_number)
+          .filter(purchase => purchase.startsWith("URD"))
+          .map(purchase => parseInt(purchase.slice(3), 10)); // Extract numeric part
+  
+        const lastURDPurchaseNumber = Math.max(...URDNumbers);
+        const nextURDPurchaseNumber = `URD${String(lastURDPurchaseNumber + 1).padStart(3, "0")}`;
+  
+        res.json({ lastURDPurchaseNumber: nextURDPurchaseNumber });
+      } else {
+        res.json({ lastURDPurchaseNumber: "URD001" }); // Start with URD001
+      }
+    });
+  };
+
+module.exports = { saveUrdPurchase,getUrdPurchases,getLastURDPurchaseNumber };

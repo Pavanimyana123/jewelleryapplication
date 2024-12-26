@@ -8,5 +8,6 @@ router.post('/save-purchase', urdPurchaseController.saveUrdPurchase);
 
 // GET route for fetching purchases
 router.get('/get-purchases', urdPurchaseController.getUrdPurchases);
+router.get("/lastURDPurchaseNumber", urdPurchaseController.getLastURDPurchaseNumber);
 
 module.exports = router;

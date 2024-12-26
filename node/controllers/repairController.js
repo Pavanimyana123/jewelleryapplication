@@ -3,13 +3,14 @@ const db = require('../db');
 
 exports.addRepair = async (req, res) => {
     try {
-        const result = await RepairModel.add(req.body);
-        res.status(201).json({ message: 'Repair entry added successfully', repairId: result.insertId });
+      const result = await RepairModel.add(req.body);
+      res.status(201).json({ message: 'Repair entry added successfully', repairId: result.insertId });
     } catch (error) {
-        console.error('Error inserting repair entry:', error.message);
-        res.status(500).json({ error: 'Failed to insert repair entry' });
+      console.error('Error inserting repair entry:', error.message);
+      res.status(500).json({ error: 'Failed to insert repair entry' });
     }
-};
+  };
+  
 
 exports.getRepairs = async (req, res) => {
     try {

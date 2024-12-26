@@ -60,7 +60,6 @@ const getEstimates = (req, res) => {
     });
   };
 
-
   const getLastEstimateNumber = (req, res) => {
     estimateModel.getLastEstimateNumber((err, result) => {
       if (err) {
@@ -84,11 +83,78 @@ const getEstimates = (req, res) => {
       }
     });
   };
+
+  const getAllUniqueEstimates = (req, res) => {
+    estimateModel.getAllUniqueEstimates((err, results) => {
+      if (err) {
+        console.error("Error fetching data:", err);
+        return res.status(500).json({ message: "Error fetching data" });
+      }
+      res.json(results);
+    });
+  };
+  
+  // Controller to get estimate details by estimate_number
+  const getEstimateDetailsByEstimateNumber = (req, res) => {
+    const { estimate_number } = req.params;
+  
+    if (!estimate_number) {
+      return res.status(400).json({ message: "Estimate number is required" });
+    }
+  
+    estimateModel.getByEstimateNumber(estimate_number, (err, results) => {
+      if (err) {
+        console.error("Error fetching data:", err);
+        return res.status(500).json({ message: "Error fetching data" });
+      }
+  
+      if (!results.length) {
+        return res.status(404).json({ message: "No data found for the given estimate number" });
+      }
+  
+      // Extract unique and repeated data
+      const uniqueData = {
+        date: results[0].date,
+        estimate_number: results[0].estimate_number,
+        total_amount: results[0].total_amount,
+      };
+  
+      const repeatedData = results.map((row) => ({
+        code: row.code,
+        product_id: row.product_id,
+        product_name: row.product_name,
+        metal_type: row.metal_type,
+        design_master: row.design_master,
+        purity: row.purity,
+        gross_weight: row.gross_weight,
+        stones_weight: row.stones_weight,
+        stones_price: row.stones_price,
+        weight_bw: row.weight_bw,
+        wastage_on: row.wastage_on,
+        wastage_percent: row.wastage_percent,
+        wastage_weight: row.wastage_weight,
+        total_weight: row.total_weight,
+        making_charges_on: row.making_charges_on,
+        mc_per_gram: row.mc_per_gram,
+        total_mc: row.total_mc,
+        rate: row.rate,
+        rate_amt: row.rate_amt,
+        tax_percent: row.tax_percent,
+        tax_vat_amount: row.tax_vat_amount,
+        total_rs: row.total_rs,
+        
+      }));
+  
+      res.json({ uniqueData, repeatedData });
+    });
+  };
   
   module.exports = {
     addEstimate,
     getEstimates,
     updateEstimate,
     deleteEstimate,
-    getLastEstimateNumber
+    getLastEstimateNumber,
+    getAllUniqueEstimates,
+    getEstimateDetailsByEstimateNumber
   };

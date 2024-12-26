@@ -26,7 +26,10 @@ const createOpeningTag = (req, res) => {
         Source = "",
         Stock_Point = "Default Stock Point",
         Design_Master = "Default Design",
-        product_Name = ""
+        product_Name = "",
+        making_on  = "",
+        selling_price  = "",
+        dropdown  = ""
     } = req.body;
 
     const data = {
@@ -53,7 +56,10 @@ const createOpeningTag = (req, res) => {
         Source,
         Stock_Point,
         Design_Master,
-        product_Name
+        product_Name,
+        making_on,
+        selling_price,
+        dropdown
     };
 
     openingTagsModel.addOpeningTag(data, (err, result) => {

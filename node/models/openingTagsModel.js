@@ -8,8 +8,8 @@ const addOpeningTag = (data, callback) => {
         Gross_Weight, Stones_Weight, Stones_Price, WastageWeight, HUID_No,
         Wastage_On, Wastage_Percentage, Weight_BW, MC_Per_Gram, Making_Charges_On,
         TotalWeight_AW, Making_Charges, Status, Source, Stock_Point,
-        Design_Master, product_Name
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        Design_Master, product_Name, making_on, selling_price, dropdown
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -18,7 +18,7 @@ const addOpeningTag = (data, callback) => {
         data.Stones_Price, data.WastageWeight, data.HUID_No, data.Wastage_On,
         data.Wastage_Percentage, data.Weight_BW, data.MC_Per_Gram, data.Making_Charges_On,
         data.TotalWeight_AW, data.Making_Charges, data.Status, data.Source,
-        data.Stock_Point, data.Design_Master, data.product_Name
+        data.Stock_Point, data.Design_Master, data.product_Name, data.making_on, data.selling_price, data.dropdown
     ];
 
     db.query(sql, values, callback);

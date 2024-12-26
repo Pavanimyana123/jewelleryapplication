@@ -4,27 +4,28 @@ const db = require('../db');
 const RepairModel = {
     add: (data) => {
         const sql = `
-            INSERT INTO repairs (
-                name, mobile, email, address1, address2, address3, city, staff, delivery_date, 
-                place, metal, counter, entry_type, repair_no, date, metal_type, item, 
-                tag_no, description, purity, extra_weight, stone_value, making_charge, 
-                handling_charge, total, status
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          INSERT INTO repairs (
+            name, mobile, email, address1, address2, address3, city, staff, delivery_date, 
+            place, metal, counter, entry_type, repair_no, date, metal_type, item, 
+            tag_no, description, purity, extra_weight, stone_value, making_charge, 
+            handling_charge, total, status, image
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
         const values = [
-            data.name, data.mobile, data.email, data.address1, data.address2, data.address3, data.city, 
-            data.staff, data.delivery_date, data.place, data.metal, data.counter, 
-            data.entry_type, data.repair_no, data.date, data.metal_type, data.item, 
-            data.tag_no, data.description, data.purity, data.extra_weight, 
-            data.stone_value, data.making_charge, data.handling_charge, data.total, data.status,
+          data.name, data.mobile, data.email, data.address1, data.address2, data.address3, data.city, 
+          data.staff, data.delivery_date, data.place, data.metal, data.counter, 
+          data.entry_type, data.repair_no, data.date, data.metal_type, data.item, 
+          data.tag_no, data.description, data.purity, data.extra_weight, 
+          data.stone_value, data.making_charge, data.handling_charge, data.total, data.status, 
+          data.image,
         ];
         return new Promise((resolve, reject) => {
-            db.query(sql, values, (err, result) => {
-                if (err) reject(err);
-                resolve(result);
-            });
+          db.query(sql, values, (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+          });
         });
-    },
+      },
 
     getAll: () => {
         return new Promise((resolve, reject) => {
